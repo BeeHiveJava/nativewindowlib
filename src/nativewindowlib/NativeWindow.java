@@ -122,6 +122,42 @@ public class NativeWindow {
 	}
 	
 	/**
+	 * Disables this window so that no input can be sent to it anymore.
+	 * 
+	 * @return false, if this window was disabled.
+	 */
+	public boolean disable() {
+		return User32.INSTANCE.EnableWindow(hwnd, false);
+	}
+	
+	/**
+	 * Checks whether input to this window is blocked.
+	 * 
+	 * @return true if no input can be sent to this window.
+	 */
+	public boolean isDisabled() {
+		return !User32.INSTANCE.IsWindowEnabled(hwnd);
+	}
+	
+	/**
+	 * Enables this window so that input can be sent to it again.
+	 * 
+	 * @return true, if this window was enabled.
+	 */
+	public boolean enable() {
+		return User32.INSTANCE.EnableWindow(hwnd, true);
+	}
+	
+	/**
+	 * Checks whether input can be sent to this window or not.
+	 * 
+	 * @return true if input can be sent to this window.
+	 */
+	public boolean isEnabled() {
+		return User32.INSTANCE.IsWindowEnabled(hwnd);
+	}
+	
+	/**
 	 * Moves, changes the size and repaints this window.
 	 * 
 	 * @param rect a {@link Rectangle} containing this window's new bounds.
@@ -161,9 +197,8 @@ public class NativeWindow {
 	public String getTitle() {
 		byte[] buffer = new byte[1024];
 		User32.INSTANCE.GetWindowTextA(hwnd, buffer, buffer.length);
-		String title = Native.toString(buffer);
-		
-		return title;
+
+		return Native.toString(buffer);
 	}
 	
 	/**
@@ -181,8 +216,7 @@ public class NativeWindow {
 		Pointer ptr = Kernel32.INSTANCE.OpenProcess(1040, false, pid.getValue());
 		PsAPI.INSTANCE.GetModuleFileNameExA(ptr, zero, buffer, buffer.length);
 		
-		String process = Native.toString(buffer);
-		return process;
+		return Native.toString(buffer);
 	}
 	
 	/**

@@ -6,7 +6,7 @@ import com.sun.jna.win32.StdCallLibrary;
 
 interface User32 extends StdCallLibrary {
 
-	static final User32 INSTANCE = (User32) Native.loadLibrary("user32",	User32.class);
+	static final User32 INSTANCE = (User32) Native.loadLibrary("user32", User32.class);
 
 	boolean EnumWindows(WindowEnumProcessor wndenumproc, int lParam);
 
@@ -15,6 +15,12 @@ interface User32 extends StdCallLibrary {
 	
 	boolean IsWindowVisible(int hWnd);
 	
+	boolean ShowWindow(int hWnd, int nCmdShow);
+	
+	boolean IsWindowEnabled(int hWnd);
+	
+	boolean EnableWindow(int hWnd, boolean enable);
+	
 	boolean IsZoomed(int hWnd);
 	
 	boolean IsIconic(int hWnd);
@@ -22,8 +28,6 @@ interface User32 extends StdCallLibrary {
 	boolean CloseWindow(int hWnd);
 
 	boolean DestroyWindow(int hWnd);
-
-	boolean ShowWindow(int hWnd, int nCmdShow);
 	
 
 	boolean MoveWindow(int hWnd, int X, int Y, int nWidth, int nHeight, boolean bRepaint);
