@@ -19,7 +19,11 @@ interface User32 extends StdCallLibrary {
 	
 	boolean IsWindowEnabled(int hWnd);
 	
+	boolean OpenIcon(int hWnd);
+	
 	boolean EnableWindow(int hWnd, boolean enable);
+	
+	boolean IsHungAppWindow();
 	
 	boolean IsZoomed(int hWnd);
 	
@@ -53,6 +57,7 @@ interface User32 extends StdCallLibrary {
 	boolean SetForegroundWindow(int hWnd);
 	
 	int GetForegroundWindow();
-
+	
+	
 	
 }

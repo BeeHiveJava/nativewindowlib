@@ -131,6 +131,15 @@ public class NativeWindow {
 	}
 	
 	/**
+	 * Restores this window, if it was minimized, setting its previous size and position, it then activates this window.
+	 * 
+	 * @return true if, and only if, this operation succeeded.
+	 */
+	public boolean restore() {
+		return User32.INSTANCE.OpenIcon(hwnd);
+	}
+	
+	/**
 	 * Disables this window so that no input can be sent to it anymore.
 	 * 
 	 * @return false, if this window was disabled.
@@ -226,6 +235,18 @@ public class NativeWindow {
 		PsAPI.INSTANCE.GetModuleFileNameExA(ptr, zero, buffer, buffer.length);
 		
 		return Native.toString(buffer);
+	}
+	
+	/**
+	 * Determines whether the system considers that a specified application is not responding.
+	 * An application is considered to be not responding if it is not waiting for input,
+	 * is not in startup processing, and has not called PeekMessage within the
+	 * internal timeout period of 5 seconds.
+	 * 
+	 * @return true if, and only if, this window is responding.
+	 */
+	public boolean isResponding() {
+		return !User32.INSTANCE.IsHungAppWindow();
 	}
 	
 	/**
