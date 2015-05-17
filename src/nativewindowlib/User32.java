@@ -51,6 +51,8 @@ interface User32 extends StdCallLibrary {
 
 
 	boolean SetForegroundWindow(int hWnd);
+	
+	int GetForegroundWindow();
 
 	
 }

@@ -72,6 +72,15 @@ public final class WindowUtils {
 	}
 	
 	/**
+	 * Finds the window that is currently active
+	 * 
+	 * @return the window that is currently active
+	 */
+	public static NativeWindow getActiveWindow() {
+		return new NativeWindow(User32.INSTANCE.GetForegroundWindow());
+	}
+	
+	/**
 	 * Prevent instantiation
 	 */
 	private WindowUtils() {

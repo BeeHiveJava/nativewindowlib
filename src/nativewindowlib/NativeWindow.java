@@ -86,6 +86,15 @@ public class NativeWindow {
 	}
 	
 	/**
+	 * Retrieves the current active window handle and checks if it is equal to this window's handle.
+	 * 
+	 * @return true if this window is active.
+	 */
+	public boolean isActive() {
+		return User32.INSTANCE.GetForegroundWindow() == hwnd;
+	}
+	
+	/**
 	 * Shows this window, setting its placement to {@link WindowConstants#SW_HIDE}.
 	 * 
 	 * @return true if, and only if, this operation succeeded.
