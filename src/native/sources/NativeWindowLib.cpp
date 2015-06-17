@@ -37,7 +37,7 @@ JNIEXPORT void JNICALL Java_nativewindowlib_WindowUtil_DestroyWindow
 		return;
 	}
 
-	DestroyWindow(handle);
+	SendMessage(handle, WM_CLOSE, 0, 0);
 }
 
 JNIEXPORT void JNICALL Java_nativewindowlib_WindowUtil_CloseWindow
