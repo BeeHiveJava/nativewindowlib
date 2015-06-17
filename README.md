@@ -1,6 +1,9 @@
 # nativewindowlib
 
-A library to work with native windows on the Windows operating system. It was first started by redpois0n, I decided to continue on it and add more features. I also removed the JNA dependency and made it run using JNI. Let's hope we can merge the two repositories in the future ;).
+A library to work with native windows on the Windows operating system. It was first started by redpois0n, I decided to continue on it and add more features. I also removed the JNA dependency and made it run using JNI. Let's hope we can merge the two repositories in the future ;). I aimed this to be as simple as possible, as many people struggle using native code with Java. Just add this jar to your classpath and start using it!
+
+# Download
+The download link can be found [here] (https://github.com/U2ForMeJava/nativewindowlib/releases/download/1.0/1.0.jar).
 
 ## Examples
 
