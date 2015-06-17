@@ -6,9 +6,6 @@ import java.io.File;
 import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.IntByReference;
 
 /**
  * This class represents a window on the Windows operating system.
@@ -34,19 +31,17 @@ public class NativeWindow {
 	/**
 	 * Destroys this window and all its associated children or owned windows.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean close() {
-		return User32.INSTANCE.DestroyWindow(hwnd);
+	public void close() {
+		WindowUtil.DestroyWindow(hwnd);
 	}
 	
 	/**
 	 * Closes this window, setting its placement to minimized.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean minimize() {
-		return User32.INSTANCE.CloseWindow(hwnd);
+	public void minimize() {
+		WindowUtil.CloseWindow(hwnd);
 	}
 	
 	/**
@@ -55,16 +50,15 @@ public class NativeWindow {
 	 * @return true if, and only if, {@link #getWindowPlacement()} equals {@link WindowConstants#SW_MINIMIZE}.
 	 */
 	public boolean isMinimized() {
-		return User32.INSTANCE.IsIconic(hwnd);
+		return WindowUtil.IsIconic(hwnd);
 	}
 	
 	/**
 	 * Shows this window, settings its placement to maximized.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean maximize() {
-		return User32.INSTANCE.ShowWindow(hwnd, WindowConstants.SW_MAXIMIZE);
+	public void maximize() {
+		WindowUtil.ShowWindow(hwnd, WindowConstants.SW_MAXIMIZE);
 	}
 	
 	/**
@@ -73,16 +67,15 @@ public class NativeWindow {
 	 * @return true if, and only if, {@link #getWindowPlacement()} equals {@link WindowConstants#SW_MAXIMIZE}.
 	 */
 	public boolean isMaximized() {
-		return User32.INSTANCE.IsZoomed(hwnd);
+		return WindowUtil.IsZoomed(hwnd);
 	}
 	
 	/**
 	 * Brings this window to the front.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean bringToFront() {
-		return User32.INSTANCE.SetForegroundWindow(hwnd);
+	public void bringToFront() {
+		WindowUtil.SetForegroundWindow(hwnd);
 	}
 	
 	/**
@@ -91,16 +84,15 @@ public class NativeWindow {
 	 * @return true if this window is active.
 	 */
 	public boolean isActive() {
-		return User32.INSTANCE.GetForegroundWindow() == hwnd;
+		return WindowUtil.GetForegroundWindow() == hwnd;
 	}
 	
 	/**
 	 * Shows this window, setting its placement to {@link WindowConstants#SW_HIDE}.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean hide() {
-		return User32.INSTANCE.ShowWindow(hwnd, WindowConstants.SW_HIDE);
+	public void hide() {
+		WindowUtil.ShowWindow(hwnd, WindowConstants.SW_HIDE);
 	}
 	
 	/**
@@ -115,10 +107,9 @@ public class NativeWindow {
 	/**
 	 * Shows this window, setting its placement to {@link WindowConstants#SW_SHOW}.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean show() {
-		return User32.INSTANCE.ShowWindow(hwnd, WindowConstants.SW_SHOW);
+	public void show() {
+		WindowUtil.ShowWindow(hwnd, WindowConstants.SW_SHOW);
 	}
 	
 	/**
@@ -127,25 +118,23 @@ public class NativeWindow {
 	 * @return true if, and only if, this window is visible.
 	 */
 	public boolean isVisible() {
-		return User32.INSTANCE.IsWindowVisible(hwnd);
+		return WindowUtil.IsWindowVisible(hwnd);
 	}
 	
 	/**
 	 * Restores this window, if it was minimized, setting its previous size and position, it then activates this window.
 	 * 
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean restore() {
-		return User32.INSTANCE.OpenIcon(hwnd);
+	public void restore() {
+		WindowUtil.OpenIcon(hwnd);
 	}
 	
 	/**
 	 * Disables this window so that no input can be sent to it anymore.
 	 * 
-	 * @return false, if this window was disabled.
 	 */
-	public boolean disable() {
-		return User32.INSTANCE.EnableWindow(hwnd, false);
+	public void disable() {
+		WindowUtil.EnableWindow(hwnd, false);
 	}
 	
 	/**
@@ -154,16 +143,15 @@ public class NativeWindow {
 	 * @return true if no input can be sent to this window.
 	 */
 	public boolean isDisabled() {
-		return !User32.INSTANCE.IsWindowEnabled(hwnd);
+		return !WindowUtil.IsWindowEnabled(hwnd);
 	}
 	
 	/**
 	 * Enables this window so that input can be sent to it again.
 	 * 
-	 * @return true, if this window was enabled.
 	 */
-	public boolean enable() {
-		return User32.INSTANCE.EnableWindow(hwnd, true);
+	public void enable() {
+		WindowUtil.EnableWindow(hwnd, true);
 	}
 	
 	/**
@@ -172,17 +160,16 @@ public class NativeWindow {
 	 * @return true if input can be sent to this window.
 	 */
 	public boolean isEnabled() {
-		return User32.INSTANCE.IsWindowEnabled(hwnd);
+		return WindowUtil.IsWindowEnabled(hwnd);
 	}
 	
 	/**
 	 * Moves, changes the size and repaints this window.
 	 * 
 	 * @param rect a {@link Rectangle} containing this window's new bounds.
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean setBounds(Rectangle rect) {
-		return User32.INSTANCE.MoveWindow(hwnd, rect.x, rect.y, rect.width, rect.height, true);
+	public void setBounds(Rectangle rect) {
+		WindowUtil.MoveWindow(hwnd, rect.x, rect.y, rect.width, rect.height, true);
 	}
 	
 	/**
@@ -191,20 +178,16 @@ public class NativeWindow {
 	 * @return a {@link Rectangle} containing the bounds of this window.
 	 */
 	public Rectangle getBounds() {
-		NativeRectangle rect = new NativeRectangle();
-		User32.INSTANCE.GetWindowRect(hwnd, rect);
-
-		return new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+		return WindowUtil.GetWindowRect(hwnd);
 	}
 	
 	/**
 	 * Changes the title of this window <b>ONLY ANSI ENCODING</b>.
 	 * 
 	 * @param title the new title of this window.
-	 * @return true if, and only if, this operation succeeded.
 	 */
-	public boolean setTitle(String title) {
-		return User32.INSTANCE.SetWindowTextA(hwnd, title);
+	public void setTitle(String title) {
+		WindowUtil.SetWindowTextA(hwnd, title);
 	}
 	
 	/**
@@ -213,28 +196,7 @@ public class NativeWindow {
 	 * @return the title of this window.
 	 */
 	public String getTitle() {
-		byte[] buffer = new byte[1024];
-		User32.INSTANCE.GetWindowTextA(hwnd, buffer, buffer.length);
-
-		return Native.toString(buffer);
-	}
-	
-	/**
-	 * Gets the process attached to this window.
-	 * 
-	 * @return the process that owns this window.
-	 */
-	public String getProcess() {
-		byte[] buffer = new byte[1024];
-
-		Pointer zero = new Pointer(0);
-		IntByReference pid = new IntByReference();
-		User32.INSTANCE.GetWindowThreadProcessId(hwnd, pid);
-
-		Pointer ptr = Kernel32.INSTANCE.OpenProcess(1040, false, pid.getValue());
-		PsAPI.INSTANCE.GetModuleFileNameExA(ptr, zero, buffer, buffer.length);
-		
-		return Native.toString(buffer);
+		return WindowUtil.GetWindowTextA(hwnd);
 	}
 	
 	/**
@@ -246,7 +208,16 @@ public class NativeWindow {
 	 * @return true if, and only if, this window is responding.
 	 */
 	public boolean isResponding() {
-		return !User32.INSTANCE.IsHungAppWindow();
+		return !WindowUtil.IsHungAppWindow(hwnd);
+	}
+	
+	/**
+	 * Gets the process attached to this window.
+	 * 
+	 * @return the process that owns this window.
+	 */
+	public String getProcess() {
+		return WindowUtil.GetProcess(hwnd);
 	}
 	
 	/**
@@ -273,6 +244,7 @@ public class NativeWindow {
 		builder.append("NativeWindow[Hwnd=").append(hwnd);
 		builder.append(", Title=").append(getTitle());
 		builder.append(", Process=").append(getProcess());
+		builder.append(", Responding=").append(isResponding());
 		builder.append(", Minimized=").append(isMinimized());
 		builder.append(", Maximized=").append(isMaximized());
 		builder.append(", Bounds=").append(getBounds());
