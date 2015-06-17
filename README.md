@@ -1,37 +1,31 @@
 # nativewindowlib
 
-A library to work with native windows on the Windows operating system. It was first started by redpois0n, I decided to continue on it and add more features. Let's hope we can merge the two repositories in the future ;).
-
-## Dependencies
-
-- [jna](https://github.com/twall/jna)
+A library to work with native windows on the Windows operating system. It was first started by redpois0n, I decided to continue on it and add more features. I also removed the JNA dependency and made it run using JNI. Let's hope we can merge the two repositories in the future ;).
 
 ## Examples
 
 Loop through windows
 ```java
-List<NativeWindow> windows = WindowUtils.getVisibleWindows();
+List<NativeWindow> windows = WindowUtil.getVisibleWindows();
 		    
 for (NativeWindow window : windows) {
-	if (window.getTitle().length() > 0) {
-		addToList(window);
-	}	
+	System.out.println(window.isVisible());	
 }		    
 ```
 
 Get active window
 ```java
-NativeWindow window = WindowUtils.getActiveWindow();		    
+NativeWindow window = WindowUtil.getActiveWindow();		    
 ```
 
 Get window by title
 ```java
-NativeWindow window = WindowUtils.getByTitle("Notepad");		    
+NativeWindow window = WindowUtil.getWindowByTitle("Notepad");		    
 ```
 
 Minimizing, maximizing, closing, visibility, foreground, enabling, location and size, title
 ```java
-NativeWindow window = WindowUtils.getActiveWindow();
+NativeWindow window = WindowUtil.getActiveWindow();
 window.maximize();
 window.minimize();
 window.hide();
@@ -46,7 +40,7 @@ window.close();
 
 Getting information about the window
 ```java
-NativeWindow window = WindowUtils.getActiveWindow();
+NativeWindow window = WindowUtil.getActiveWindow();
 window.isMinimized();
 window.isMaximized();
 window.isActive();
@@ -57,6 +51,5 @@ window.isEnabled();
 window.getBounds();
 window.getTitle();
 window.getProcess();
-window.getTitle();
 window.getHwnd();
 ```
